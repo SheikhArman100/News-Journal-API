@@ -7,18 +7,17 @@ const url = process.env.URL1;
 export const newsPostController = async (req, res) => {
   try {
     const browser = await puppeteer.launch({
-      headless: false,
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-    });
+    args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--single-process",
+      "--no-zygote",
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+  });
     const page = await browser.newPage();
     await page.goto(url);
 
@@ -66,7 +65,7 @@ export const newsPostController = async (req, res) => {
     return res.send("News Database Updated Successfully");
   } catch (error) {
     log.error(error.message);
-    return res.send(error.message);
+    return res.send(error.message)
   }
 };
 

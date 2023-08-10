@@ -5,21 +5,21 @@ import log from "../utils/logger.js";
 const baseUrl = process.env.URL;
 const url = process.env.URL4;
 
-export const culturePostController = async (req, res) => {
-  try {
-    const browser = await puppeteer.launch({
-      headless: false,
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-    });
+export const culturePostController=async(req,res)=>{
+    try {
+    const browser = await puppeteer.launch( {
+        
+    args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--single-process",
+      "--no-zygote",
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+  });
     const page = await browser.newPage();
     await page.goto(url);
 
@@ -57,25 +57,28 @@ export const culturePostController = async (req, res) => {
     }, baseUrl);
     await browser.close();
 
+   
+
     //delete previous data in mongodb
     await Culture.deleteMany({});
 
     //insert new data in mongodb
     await Culture.create(newsData);
     log.info("Culture Database Updated Successfully");
-    return res.send("Culture Database Updated Successfully");
+    return res.send("Culture Database Updated Successfully")
   } catch (error) {
     log.error(error.message);
-    return res.send(error.message);
+    return res.send(error.message)
   }
-};
 
-export const cultureGetController = async (req, res) => {
-  try {
-    const resData = await Culture.find();
-    return res.send(resData);
-  } catch (error) {
-    log.error(error.message);
-    return res.send(error.message);
-  }
-};
+}
+
+export const cultureGetController=async(req,res)=>{
+    try {
+        const resData = await Culture.find();
+  return res.send(resData);
+    } catch (error) {
+        log.error(error.message);
+    return res.send(error.message)
+    }
+}
