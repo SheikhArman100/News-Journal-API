@@ -1,9 +1,9 @@
 FROM ghcr.io/puppeteer/puppeteer:21.0.2
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
+    PUPPETEER_EXECUTABLE_PATH=node_modules\@puppeteer\browsers\src\browser-data\chrome.ts
 
-WORKDIR /usr/src/app
+WORKDIR 
 
 COPY package*.json ./
 RUN npm ci
