@@ -7,17 +7,18 @@ const url = process.env.URL;
 export const headlinePostController = async (req, res) => {
   try {
     const browser = await puppeteer.launch({
-    args: [
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-      "--single-process",
-      "--no-zygote",
-    ],
-    executablePath:
-      process.env.NODE_ENV === "production"
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
-  });
+      headless: false,
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
+    });
     const page = await browser.newPage();
     await page.goto(url);
 
@@ -58,12 +59,12 @@ export const headlinePostController = async (req, res) => {
     log.error(error);
   }
 };
-export const headlineGetController = async (req,res) => {
+export const headlineGetController = async (req, res) => {
   try {
     const resData = await Headline.find();
     return res.send(resData);
   } catch (error) {
     log.error(error.message);
-    return res.send(error.message)
+    return res.send(error.message);
   }
 };
