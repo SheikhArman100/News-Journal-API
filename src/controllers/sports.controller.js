@@ -20,7 +20,7 @@ export const sportsPostController = async (req, res) => {
         : puppeteer.executablePath(),
   });
     const page = await browser.newPage();
-    await page.goto(url);
+    await page.goto(url,{timeout:60000});
 
     const newsData = await page.evaluate((baseUrl) => {
       const headlinesColumns = document.querySelectorAll(
