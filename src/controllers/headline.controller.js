@@ -52,8 +52,8 @@ export const headlinePostController = async (req, res) => {
 
     //insert new data in mongodb
     await Headline.create(newsData);
-    return res.send("Headline Database Updated Successfully");
     log.info("Headline Database Updated Successfully");
+    return res.send("Headline Database Updated Successfully");
   } catch (error) {
     log.error(error);
   }
