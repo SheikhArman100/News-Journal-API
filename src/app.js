@@ -13,10 +13,16 @@ app.use(express.json())
 
 
 //cron-job
-cron.schedule('0 */2 * * *', () => {
-  log.info('Running scheduled task...');
-  makeCronJobRequest()
+cron.schedule('0 */1 * * *', async() => {
+ 
+  try {
+     log.info('Running scheduled task...');
+  await makeCronJobRequest()
+  } catch (error) {
+   log.error(error.message) 
+  }
 });
+
 
 
 
