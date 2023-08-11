@@ -19,7 +19,7 @@ export const opinionPostController = async (req, res) => {
         : puppeteer.executablePath(),
   });
     const page = await browser.newPage();
-    await page.goto(url,{timeout:60000});
+    await page.goto(url,{timeout:120000});
 
     const newsData = await page.evaluate((baseUrl) => {
       const headlinesColumns = document.querySelectorAll(
