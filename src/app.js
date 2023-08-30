@@ -12,19 +12,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const cronSchedule=async()=>{
-  cron.schedule("0 */6 * * *", async () => {
-    try {
-      console.log("Running scheduled task...");
-      await makeCronJobRequest();
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
-
-}
-app.use(cronSchedule)
-
 
 
 const port = process.env.PORT;
@@ -32,4 +19,17 @@ app.listen(port, async () => {
   log.info(`Backend server is running on port ${port}!`);
   await mongoConnect();
   routes(app);
+  try {
+    cron.schedule("0 */6 * * *", async () => {
+    try {
+      console.log("Running scheduled task...");
+      await makeCronJobRequest();
+    } catch (error) {
+      console.log(error.message);
+    }
+  });
+  } catch (error) {
+    console.log(error.message)
+    
+  }
 });
