@@ -12,7 +12,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-cron.schedule("0 */6 * * *", async () => {
+const cronSchedule=async()=>{
+  cron.schedule("0 */6 * * *", async () => {
     try {
       console.log("Running scheduled task...");
       await makeCronJobRequest();
@@ -20,6 +21,11 @@ cron.schedule("0 */6 * * *", async () => {
       console.log(error.message);
     }
   });
+
+}
+app.use(cronSchedule)
+
+
 
 const port = process.env.PORT;
 app.listen(port, async () => {
