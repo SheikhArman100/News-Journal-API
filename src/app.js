@@ -11,25 +11,23 @@ import { makeCronJobRequest } from "./utils/cron-jobs.js";
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-
+try {
+  cron.schedule("*/59 * * * *", async () => {
+    try {
+      log.info("Running scheduled task...");
+      await makeCronJobRequest();
+      log.info("Scheduled tasks completed");
+    } catch (error) {
+      log.error("error on cronjob", error);
+    }
+  });
+} catch (error) {
+  log.error("error on scheduled task", error.message);
+}
 
 const port = process.env.PORT;
 app.listen(port, async () => {
   log.info(`Backend server is running on port ${port}!`);
   await mongoConnect();
   routes(app);
-  try {
-    cron.schedule("0 */6 * * *", async () => {
-    try {
-      console.log("Running scheduled task...");
-      await makeCronJobRequest();
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
-  } catch (error) {
-    console.log(error.message)
-    
-  }
 });
