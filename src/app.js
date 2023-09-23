@@ -43,7 +43,7 @@ app.use(express.json());
 
 
 
-  cron.schedule("*/30 * * * *", async () => {
+  cron.schedule("*/10 * * * *", async () => {
     try {
       log.info("Running scheduled task...");
       await makeCronJobRequest();
