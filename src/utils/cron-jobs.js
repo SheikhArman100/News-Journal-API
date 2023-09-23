@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export async function makeCronJobRequest() {
-  const base_url = process.env.HOST_URL;
+  const base_url = process.argv.includes("--dev")? process.env.LOCAL_HOST_URL:process.env.HOST_URL;
+  console.log(base_url)
 
   try {
     await axios.post(`${base_url}/api/headline`);
@@ -12,6 +13,7 @@ export async function makeCronJobRequest() {
     await axios.post(`${base_url}/api/opinion`);
     console.log("cron-job request successful");
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
+    console.log("cron-job request failed")
   }
 }
