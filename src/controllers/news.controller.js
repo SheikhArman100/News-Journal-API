@@ -71,7 +71,7 @@ export const newsPostController = async (req, res) => {
 
 export const newsGetController = async (req, res) => {
   try {
-    const resData = await News.find();
+    const resData = await News.find({image:{$ne:""}});
     return res.send(resData);
   } catch (error) {
     return res.send(error);

@@ -60,7 +60,7 @@ export const headlinePostController = async (req, res) => {
 };
 export const headlineGetController = async (req,res) => {
   try {
-    const resData = await Headline.find();
+    const resData = await Headline.find({image:{$ne:""}});
     return res.send(resData);
   } catch (error) {
     log.error(error.message);

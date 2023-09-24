@@ -75,7 +75,7 @@ export const culturePostController=async(req,res)=>{
 
 export const cultureGetController=async(req,res)=>{
     try {
-        const resData = await Culture.find();
+        const resData = await Culture.find({image:{$ne:""}});
   return res.send(resData);
     } catch (error) {
         log.error(error.message);

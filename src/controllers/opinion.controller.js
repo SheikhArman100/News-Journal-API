@@ -70,7 +70,7 @@ export const opinionPostController = async (req, res) => {
 
 export const opinionGetController = async (req, res) => {
   try {
-    const resData = await Opinion.find();
+    const resData = await Opinion.find({image:{$ne:""}});
     return res.send(resData);
   } catch (error) {
     log.error(error.message);

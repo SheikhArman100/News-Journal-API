@@ -71,7 +71,7 @@ export const sportsPostController = async (req, res) => {
 };
 export const sportsGetController = async (req, res) => {
   try {
-    const resData = await Sports.find();
+    const resData = await Sports.find({image:{$ne:""}});
     return res.send(resData);
   } catch (error) {
     log.error(error.message);

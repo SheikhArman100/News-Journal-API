@@ -70,7 +70,7 @@ export const lifestylePostController = async (req, res) => {
 
 export const lifestyleGetController = async (req, res) => {
   try {
-    const resData = await Lifestyle.find();
+    const resData = await Lifestyle.find({image:{$ne:""}});
     return res.send(resData);
   } catch (error) {
     log.error(error.message);
