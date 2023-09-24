@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function makeCronJobRequest() {
   const base_url = process.argv.includes("--dev")? process.env.LOCAL_HOST_URL:process.env.HOST_URL;
-  console.log(base_url)
+  
 
   try {
     await axios.post(`${base_url}/api/headline`);

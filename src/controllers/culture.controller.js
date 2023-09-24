@@ -5,23 +5,22 @@ import log from "../utils/logger.js";
 const baseUrl = process.env.URL;
 const url = process.env.URL4;
 
-export const culturePostController=async(req,res)=>{
-    try {
-    const browser = await puppeteer.launch( {
-        
-    args: [
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-      "--single-process",
-      "--no-zygote",
-    ],
-    executablePath:
-      process.env.NODE_ENV === "production"
-        ? process.env.PUPPETEER_EXECUTABLE_PATH
-        : puppeteer.executablePath(),
-  });
+export const culturePostController = async (req, res) => {
+  try {
+    const browser = await puppeteer.launch({
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
+    });
     const page = await browser.newPage();
-    await page.goto(url,{timeout:120000});
+    await page.goto(url, { timeout: 120000 });
 
     const newsData = await page.evaluate((baseUrl) => {
       const headlinesColumns = document.querySelectorAll(
@@ -57,28 +56,28 @@ export const culturePostController=async(req,res)=>{
     }, baseUrl);
     await browser.close();
 
-   
-
     //delete previous data in mongodb
     await Culture.deleteMany({});
 
     //insert new data in mongodb
     await Culture.create(newsData);
     log.info("Culture Database Updated Successfully");
-    return res.send("Culture Database Updated Successfully")
+    return res.send("Culture Database Updated Successfully");
   } catch (error) {
     log.error(error.message);
-    return res.send(error.message)
+    return res.send(error.message);
   }
+};
 
-}
-
-export const cultureGetController=async(req,res)=>{
-    try {
-        const resData = await Culture.find({image:{$ne:""}});
-  return res.send(resData);
-    } catch (error) {
-        log.error(error.message);
-    return res.send(error.message)
-    }
-}
+export const cultureGetController = async (req, res) => {
+  try {
+    const page=Number(req.query.page)||1
+    const limit=Number(req.query.limit)||8
+    const skip=(page-1)*limit
+    const resData = await Culture.find({ image: { $ne: "" } }).skip(skip).limit(limit);
+    return res.send(resData);
+  } catch (error) {
+    log.error(error.message);
+    return res.send(error.message);
+  }
+};

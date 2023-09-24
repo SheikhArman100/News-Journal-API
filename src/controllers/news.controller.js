@@ -71,7 +71,10 @@ export const newsPostController = async (req, res) => {
 
 export const newsGetController = async (req, res) => {
   try {
-    const resData = await News.find({image:{$ne:""}});
+    const page=Number(req.query.page)||1
+    const limit=Number(req.query.limit)||8
+    const skip=(page-1)*limit
+    const resData = await News.find({image:{$ne:""}}).skip(skip).limit(limit);
     return res.send(resData);
   } catch (error) {
     return res.send(error);

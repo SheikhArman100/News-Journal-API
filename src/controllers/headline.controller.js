@@ -60,7 +60,10 @@ export const headlinePostController = async (req, res) => {
 };
 export const headlineGetController = async (req,res) => {
   try {
-    const resData = await Headline.find({image:{$ne:""}});
+    const page=Number(req.query.page)||1
+    const limit=Number(req.query.limit)||8
+    const skip=(page-1)*limit
+    const resData = await Headline.find({image:{$ne:""}}).skip(skip).limit(limit);
     return res.send(resData);
   } catch (error) {
     log.error(error.message);
